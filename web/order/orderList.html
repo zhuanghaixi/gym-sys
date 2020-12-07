@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询所有的订单</title>
+    <link type="text/css" rel="stylesheet" href="../common/bootstrap/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../common/bootstrap/table/css/bootstrap-table.min.css">
+    <link type="text/css" rel="stylesheet" href="../common/validate/bootstrapValidator.css">
+    <link type="text/css" rel="stylesheet" href="../common/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../common/css/common.css"/>
+    <style>
+        #left{
+            width: 40%;
+            height: 850px;
+            overflow:hidden;
+            float: left;
+        }
+        #right{
+            width: 59%;
+            float: left;
+            height: 850px;
+        }
+        #rightTop{
+            width: 100%;
+            height: 22%;
+        }
+        #rightMid{
+            width: 100%;
+            min-height: 500px;
+
+        }
+        #rightDown{
+            width: 100%;
+            height: 15%;
+        }
+    </style>
+</head>
+<body>
+<div id="left">
+    <div class="form-groupd">
+        <label for="searchgoodsid" class="label-control">商品编号</label>
+        <input type="text" class="form-control" id="searchgoodsid" placeholder="商品编号">
+    </div>
+    <div class="form-groupd">
+        <label for="searchName" class="label-control">商品名称</label>
+        <input type="text" class="form-control" id="searchName" placeholder="商品名称">
+    </div>
+    <button type="button" class="btn btn-primary" onclick="goodsManage.search()">搜索</button>
+<!--    <button type="button" class="btn btn-primary" onclick="goodsManage.add()">增加商品</button>-->
+    <!-- tableList -->
+    <div class="tab-pane">
+        <table class="table table-striped table-hover table-bordered" id="goodsList">
+            <thead style="background-color: #BEDDFA">
+
+            </thead>
+        </table>
+    </div>
+</div><!--left尾-->
+<div id="right" ><!--right头-->
+    <div id="rightTop"><!--rightTop头-->
+        <div >
+            <fieldset style="width: 100%;height: 50px">
+                <legend>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;会员信息</legend>
+            </fieldset>
+        </div>
+        <div style="padding-left: 30px">
+            <div class="input-group input-group-sm"
+                 style="width: 33%;float: left">
+                <span class="input-group-addon">会员查找</span>
+                <input type="text" class="form-control ">
+            </div>
+            <div class="form-group input-group">
+                &nbsp;&nbsp;&nbsp;
+                <input type="reset" class="btn btn-danger"onclick="goodsManage.find()" value="快速查找">
+              </div>
+        </div>
+        <div style="padding-top:5px;padding-left: 30px">
+            <div class="input-group input-group-sm" style="width: 45%;float: left">
+                <span class="input-group-addon">会员卡号</span>
+                <input type="text" class="form-control " readonly="readonly" id="userCardId">
+            </div>
+            <div class="input-group input-group-sm" style="width: 45%;float: left">
+                <span class="input-group-addon">会员姓名</span>
+                <input type="text" class="form-control " readonly="readonly" id="userName">
+            </div>
+        </div>
+        <div style="padding-top:20px;padding-left: 30px">
+            <div class="input-group input-group-sm" style="width: 45%;float: left;margin-top: 10px">
+                <span class="input-group-addon">会员等级</span>
+                <input type="text" class="form-control " readonly="readonly" id="cardType">
+            </div>
+            <div class="input-group input-group-sm" style="width: 45%;float: left;margin-top: 10px">
+                <span class="input-group-addon">账户余额</span>
+                <input type="text" class="form-control " readonly="readonly" id="cardAmount">
+            </div>
+        </div>
+        <div style="margin-top: 10px;padding-left: 30px">
+            <div class="input-group input-group-sm" style="width: 45%;float: left;margin-top: 10px">
+                <span class="input-group-addon">账户积分</span>
+                <input type="text" class="form-control " readonly="readonly" id="userCredit">
+            </div>
+
+        </div>
+    </div><!--rightTop尾-->
+    <div id="rightMid" ><!--rightMid头-->
+        <div >
+            <fieldset style="width: 100%">
+                <legend>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;购物车</legend>
+            </fieldset>
+        </div>
+        <div  style="overflow: hidden">
+            <table  class="table" id="Tab" style="width: 100%;overflow: hidden">
+                <tr >
+                    <td>商品编号</td>
+                    <td>商品名称</td>
+                    <td>商品库存</td>
+                    <td>商品单价</td>
+                    <td>商品数量</td>
+                    <td>商品价格</td>
+<!--                    <td >操作人员</td>-->
+                    <td>操作</td>
+                </tr>
+            </table>
+        </div>
+    </div><!--rightMid尾-->
+    <div id="rightDown"><!--rightDown头-->
+            <div class="input-group input-group-sm" style="width: 33%;float: left">
+                <span class="input-group-addon">订单编号</span>
+                <input type="text" class="form-control " placeholder="订单编号" readonly="readonly" id="orderNumber" name="orderNumber">
+            </div>
+            <div class="input-group input-group-sm" style="width: 33%;float: left">
+                <span class="input-group-addon">  消费时间</span>
+                <input type="text" class="form-control " placeholder="消费时间"  readonly="readonly" id="consumptionTime">
+            </div>
+            <div class="input-group input-group-sm" style="width: 33%;float: left">
+                <span class="input-group-addon" style="text-align: left">&nbsp;提成员工:&nbsp;&nbsp;&nbsp;&nbsp; <span  id="topUserName"></span></span>
+<!--                <input type="text" class="form-control " placeholder="提成员工" id="topUserName"> -->
+            </div>
+            <div class="input-group input-group-sm" style="width: 33%;float: left">
+                <span class="input-group-addon">消费总数量</span>
+                <input type="text" class="form-control " placeholder="消费总数量" readonly="readonly">
+            </div>
+            <div class="input-group input-group-sm" style="width: 33%;float: left">
+                <span class="input-group-addon">消费总金额</span>
+                <input type="text" class="form-control " placeholder="消费总金额" readonly="readonly" id="rental">
+            </div>
+            <div style="width: 33%;float: left">
+                <div class="input-group input-group-sm" style="width: 50%;float: left">
+                    <span class="input-group-addon">折后总金额</span>
+                    <input type="text" class="form-control "  readonly="readonly" id="zheghourental">
+                </div>
+                <div class="input-group input-group-sm" style="width: 50%;float: left">
+                    <span class="input-group-addon">消费总积分</span>
+                    <input type="text" class="form-control "  readonly="readonly" id="aggregateScore">
+                </div>
+            </div>
+            <div style="width: 100%">
+                <div class="input-group input-group-sm" style="width: 99%;float: left">
+                    <span class="input-group-addon">消费备注</span>
+                    <input type="text" class="form-control " placeholder="消费备注" id="momo">
+                </div>
+            </div>
+            <div style="width: 100%;float: right;text-align: center">
+                <input type="submit" class="btn btn-info" value="订单结算" onclick="goodsManage.Settlement();">
+                <input type="submit" class="btn btn-danger" value="挂单">
+            </div>
+    </div><!--rightDown尾-->
+</div><!--right尾-->
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    会员信息列表
+                </h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-hover table-bordered" id="userList">
+                    <thead style="background-color: #BEDDFA">
+
+                    </thead>
+                </table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+<script type="text/javascript" src="../common/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/table/js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/table/js/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="../common/validate/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="../common/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="../common/confirm/bootstrap.confirm.js"></script>
+<script type="text/javascript" src="../order/orderApi.js"></script>
+</html>

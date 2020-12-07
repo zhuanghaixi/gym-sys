@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员充值</title>
+    <link type="text/css" rel="stylesheet" href="../common/bootstrap/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../common/bootstrap/table/css/bootstrap-table.min.css">
+    <link type="text/css" rel="stylesheet" href="../common/validate/bootstrapValidator.css">
+    <link type="text/css" rel="stylesheet" href="../common/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../common/css/common.css"/>
+    <style type="text/css">
+        #box .userInfo,#box  .rechargeInfo {
+            border: 1px solid black;
+            width: 800px;
+            margin-left: 20%;
+            margin-top: 10px;
+            background-color: white;
+        }
+        #box .form-groupd{
+            margin-left: -100px;
+            margin-bottom: 0px;
+        }
+        #box td{
+            width: 25%;
+        }
+        #box .table>thead>tr>th,
+        #box .table>tbody>tr>td{
+            height: 20px;
+        }
+        #box .form-control{
+            height: 30px;
+        }
+        #box .form-groupd .form-control{
+            width: 300px;
+        }
+        #box .rechargeInfo tr td:first-child{
+            width: 20px;
+        }
+        #box .rechargeInfo tr td:last-child{
+            width: 80%;
+            text-align: left;
+        }
+        .modal-content{
+            width: 1200px;
+            margin-left: -200px;
+        }
+        #momo{
+            max-width: 620px;
+            min-width: 620px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <div class="userInfo">
+        <form role="form">
+            <table class="table table-bordered">
+                <caption class="glyphicon glyphicon-user" style="margin: 10px"> 会员卡信息</caption>
+                <tr>
+                    <td>会员卡查找:</td>
+                    <td colspan="3">
+                        <div class="form-groupd">
+                            <input type="text" class="form-control" id="inp" placeholder="会员卡编号">
+                            <button type="button" class="btn btn-info" id="searchUserList" onclick="userRecharge.searchUserList()">快速查找</button>
+<!--                            <button type="button" class="btn btn-success" id="search" onclick="cardUser.search()">搜索</button>-->
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        会员卡号:
+                    </td>
+                    <td id="userCardId"></td>
+                    <td>
+                        会员姓名:
+                    </td>
+                    <td id="userName"></td>
+                </tr>
+                <tr>
+                    <td>
+                        会员卡等级:
+                    </td>
+                    <td id="cardType"></td>
+                    <td>
+                        会员卡余额:
+                    </td>
+                    <td id="cardAmount"></td>
+                </tr>
+                <tr>
+                    <td>
+                        会员卡积分:
+                    </td>
+                    <td id="userCredit"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="rechargeInfo">
+        <form role="form" id="recharge">
+            <table class="table table-bordered">
+                <caption class="glyphicon glyphicon-usd" style="margin: 10px"> 充值信息</caption>
+                <tr>
+                    <td>
+                        充值单号：
+                    </td>
+                    <td id="rechargeId">
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        充值日期：
+                    </td>
+                    <td id="rechargeDate"></td>
+                </tr>
+                <tr>
+                    <td>
+                        付款方式：
+                    </td>
+                    <td>
+                        <label class="radio-inline">
+                            <input type="radio" checked>现金支付
+                        </label>
+                    </td>
+                </tr>
+<!--                <tr>-->
+<!--                    <td>-->
+<!--                        充值规则：-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        <select id="rechargeRule" class="form-control" onchange="userRecharge.initAmount()">-->
+<!--                            <option data-coff='0' value="0">==请选择==</option>-->
+<!--                        </select>-->
+<!--                    </td>-->
+<!--                </tr>-->
+                <tr>
+                    <td>
+                        充值金额：
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="amount" onblur="userRecharge.setAmount();" >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        赠送金额：
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="sendAmount" >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        充值合计：
+                    </td>
+                    <td id="total"></td>
+                </tr>
+                <tr>
+                    <td>
+                        可得积分：
+                    </td>
+                    <td id="credit"></td>
+                </tr>
+                <tr>
+                    <td>
+                        充值备注：
+                    </td>
+                    <td>
+                        <textarea class="form-control" id="momo"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="" colspan="2">
+                        <button class="btn btn-info" onclick="userRecharge.userRechargeOk()">确认充值</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    会员信息列表
+                </h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-hover table-bordered" id="userList">
+                    <thead style="background-color: #BEDDFA">
+
+                    </thead>
+                </table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+<script type="text/javascript" src="../common/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/table/js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/table/js/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="../common/validate/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="../common/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="../common/confirm/bootstrap.confirm.js"></script>
+<script type="text/javascript" src="userRecharge.js"></script>
+</html>

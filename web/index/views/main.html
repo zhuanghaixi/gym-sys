@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../js/iconfont/iconfont.css"/>
+	<link rel="stylesheet" type="text/css" href="../js/iconfont3/iconfont.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/fixed_wxl.css"/>
+	<style>
+		.span_position{
+			position:absolute;
+			border-radius:50%;
+			background-color:#ff2122;
+			color:#fff;
+			font-size:0.9rem;
+			width:1.1rem;
+			height:1.1rem;
+			line-height:1.1rem;
+			top:0.3rem;
+			z-index:1;
+		}
+	</style>
+	<title>管理平台</title>
+</head>
+<body id="body">
+<div class="top">
+	<img src="../img/logo.png"/>
+	<div class="top-con" id="topCon">
+		<div  class="list-title active" data-src="index.html" id="firstPage">
+			<div class="toptitleleft">
+				<span >首页</span>
+				<i class="iconfont icon-update"></i>
+			</div>
+			<div class="toptitleright">
+				<div class="toptitleico"></i></div>
+				<div class="toptitleico"><i class="iconfont icon-shuaxin-"></i></div>
+			</div>
+		</div>
+	</div>
+	<div class="top-set">
+		<span>欢迎您,</span>
+		<span id="topUserName">亲爱的用户</span>
+		<span>，所在:</span>
+		<span id="topStoreName"></span>
+		<span></span>
+		<span id="topComName"></span>
+<!--		<span class="span_position" id="sysMessgeCount" onclick="lookNoticMessage();"> 1</span>-->
+		<span class="iconfont icon-notes" onclick="lookNoticMessage();"></span>
+		<span onclick="userSelfChangePassord()" class="iconfont icon-set"></span>
+		<span onclick = "logout()" class="iconfont icon-exit"></span>
+	</div>
+</div>
+<div class="siderbar" id="siderbar">
+	<!-----------------菜单开始  --------------------->
+	<div class="menu" id="menu">
+		<i class="iconfont icon-caidan-"></i>
+		<span>功能菜单</span>
+	</div>
+	<!----------------菜单结束----------------------->
+
+	<!-----------------列表开始----------------------->
+	<ul id="accordion" class="accordion">
+
+	</ul>
+	<!-----------------列表结束----------------------->
+</div>
+
+<iframe  id="firstPageFrame" class="if-con" src="index.html"></iframe>
+
+<!-- top 其他右键菜单 -->
+<div class="contextMenu" id="topTabMenu">
+	<ul>
+		<li id="t_self">关闭自己</li>
+		<li id="t_others">关闭其他</li>
+		<li id="t_all">关闭所有</li>
+		<li id="t_refresh">刷新</li>
+	</ul>
+</div>
+<!-- top 首页右键菜单 -->
+<div class="contextMenu" id="topFirstMenu">
+	<ul>
+		<li id="t_others1">关闭其他</li>
+		<li id="t_all1">关闭所有</li>
+		<li id="t_refresh1">刷新</li>
+	</ul>
+</div>
+<div id="popView" style="display:none;">
+	<div id="popHead">
+		<a id="popClose" title="关闭">关闭</a>
+		<h2>消息提示</h2>
+	</div>
+	<div id="popContent">
+		<dl>
+			<dt id="popTitle" style="text-align:center"><a href="#" >头标题</a></dt>
+			<dd id="popIntro">这里是内容简介</dd>
+		</dl>
+		<p id="popMore">
+			<a  style="float:left" href="#"  onclick="lookNoticMessage();">查看 ?</a>
+		</p>
+	</div>
+	<div id="sound_element" style="position:absolute; top:100px; left:-100px;"></div>
+</div>
+<script src="../js/jquery-2.1.0.js"></script>
+<script src="../js/jquery-menu.js"></script>
+<script src="../js/tipso.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="../js/pop.js" ></script>
+<script src="../js/index.js"></script>
+</body>
+
+</html>

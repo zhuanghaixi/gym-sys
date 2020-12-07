@@ -1,0 +1,63 @@
+
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1498183134455'); /* IE9*/
+  src: url('iconfont.eot?t=1498183134455#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1498183134455') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1498183134455') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1498183134455#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-delete:before { content: "\e6f5"; }
+
+.icon-report:before { content: "\e601"; }
+
+.icon-financial:before { content: "\e602"; }
+
+.icon-supplychain:before { content: "\e603"; }
+
+.icon-membercard:before { content: "\e604"; }
+
+.icon-performance:before { content: "\e605"; }
+
+.icon-member:before { content: "\e606"; }
+
+.icon-store:before { content: "\e607"; }
+
+.icon-comment:before { content: "\e608"; }
+
+.icon-cashier:before { content: "\e609"; }
+
+.icon-administration:before { content: "\e60a"; }
+
+.icon-goods:before { content: "\e60b"; }
+
+.icon-calendar:before { content: "\e60c"; }
+
+.icon-marketing:before { content: "\e60d"; }
+
+.icon-photo:before { content: "\e60e"; }
+
+.icon-system:before { content: "\e60f"; }
+
+.icon-membership:before { content: "\e610"; }
+
+.icon-jiankong:before { content: "\e611"; }
+
+.icon-weihu:before { content: "\e612"; }
+
+.icon-gerenzhongxin:before { content: "\e613"; }
+
+.icon-yinxiao:before { content: "\e614"; }
+
+.icon-caidan-:before { content: "\e615"; }
+
+.icon-shuaxin-:before { content: "\e616"; }
+

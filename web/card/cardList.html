@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询所有的会员卡信息</title>
+    <link type="text/css" rel="stylesheet" href="../common/bootstrap/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../common/bootstrap/table/css/bootstrap-table.min.css">
+    <link type="text/css" rel="stylesheet" href="../common/validate/bootstrapValidator.css">
+    <link type="text/css" rel="stylesheet" href="../common/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../common/css/common.css" />
+</head>
+<body>
+<div class="form-groupd">
+    <label for="searchCardId" class="label-control">会员卡编号</label>
+    <input type="text" class="form-control" id="searchCardId" placeholder="会员卡编号">
+</div>
+<button type="button" class="btn btn-primary" onclick="cardManage.search()">搜索</button>
+<!-- tableList -->
+<div class="tab-pane">
+    <table class="table table-striped table-hover table-bordered" id="cardList">
+        <thead style="background-color: #BEDDFA">
+
+        </thead>
+    </table>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    会员卡信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="cardForm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">会员卡Id</span>
+                                <input class="form-control" placeholder="会员卡id" readonly="readonly" name="cardId" id="cardId">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">会员编号</span>
+                                <input class="form-control" placeholder="会员编号" readonly="readonly" name="userId" id="userId">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">会员卡内余额</span>
+                                <input class="form-control" placeholder="会员卡内余额" id="amount" name="amount">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">会员卡积分</span>
+                                <input class="form-control" placeholder="会员卡积分" id="credit" name="credit">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">会员卡状态</span>
+                                <select class="form-control" id="status" name="status">
+                                    <option value="0">正常</option>
+                                    <option value="1">挂失</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="cardManage.operate();">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- system modal start -->
+<div id="ycf-alert" class="modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h5 class="modal-title"><i class="fa fa-exclamation-circle"></i> [Title]</h5>
+            </div>
+            <div class="modal-body">
+                <p>[Message]</p>
+            </div>
+            <div class="modal-footer">
+                <center>
+                    <button type="button" class="btn btn-primary ok" data-dismiss="modal">[BtnOk]</button>
+                    <button type="button" class="btn btn-default cancel" data-dismiss="modal">[BtnCancel]</button>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../common/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/table/js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/table/js/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="../common/validate/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="../common/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="../common/confirm/bootstrap.confirm.js"></script>
+<script type="text/javascript" src="cardApi.js"></script>
+</html>

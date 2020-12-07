@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询所有的新闻</title>
+    <link type="text/css" rel="stylesheet" href="../common/bootstrap/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../common/bootstrap/table/css/bootstrap-table.min.css">
+    <link type="text/css" rel="stylesheet" href="../common/validate/bootstrapValidator.css">
+    <link type="text/css" rel="stylesheet" href="../common/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../common/css/common.css"/>
+    <style type="text/css">
+        #newsContent{
+            max-width: 655px;
+            min-width: 654px;
+        }
+    </style>
+</head>
+<body>
+<div class="form-groupd">
+    <label for="searchTitle" class="label-control">新闻标题</label>
+    <input type="text" class="form-control" id="searchTitle" placeholder="新闻标题">
+</div>
+<div class="form-groupd">
+    <label for="startTime" class="label-control">开始时间</label>
+    <input type="text" class="form-control" id="startTime" placeholder="开始时间">
+</div>
+<div class="form-groupd">
+    <label for="endTime" class="label-control">结束时间</label>
+    <input type="text" class="form-control" id="endTime" placeholder="结束时间">
+</div>
+<button type="button" class="btn btn-primary" onclick="newsManage.search()">搜索</button>
+<button type="button" class="btn btn-primary" onclick="newsManage.add()">新增新闻/公告</button>
+<!-- tableList -->
+<div class="tab-pane">
+    <table class="table table-striped table-hover table-bordered" id="newsList">
+        <thead style="background-color: #BEDDFA">
+
+        </thead>
+    </table>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    修改新闻
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="newsForm">
+                    <div class="row">
+                        <div class="col-md-4 hidden"  >
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">编号</span>
+                                <input class="form-control" placeholder="编号" name="id" id="id">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">新闻/公告标题</span>
+                                <input class="form-control" placeholder="新闻/公告标题" name="newsTitle" id="newsTitle">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">员工</span>
+                                <input class="form-control" placeholder="员工" readonly="readonly" name="staffName"
+                                       id="staffName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">状态</span>
+                                <select class="form-control" id="status" name="status">
+                                    <option value="0">禁用</option>
+                                    <option value="1">启用</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">创建时间</span>
+                                <input class="form-control" placeholder="创建时间" readonly="readonly" name="createdTime"
+                                       id="createdTime">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">结束时间</span>
+                                <input class="form-control" placeholder="结束时间" readonly="readonly" name="newsEndTime"
+                                       id="newsEndTime">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">新闻/公告内容</span>
+                                <textarea class="form-control" rows="3" placeholder="新闻/公告内容" id="newsContent" name="newsContent"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="newsManage.operate();">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel1">
+                    增加新闻信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="newsForm1">
+                    <div class="row">
+                        <div class="col-md-4" hidden>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">编号</span>
+                                <input class="form-control" placeholder="编号" name="newsId" id="newsId1">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">新闻/公告标题</span>
+                                <input class="form-control" placeholder="新闻/公告标题" name="newsTitle" id="newsTitle1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">员工</span>
+                                <input class="form-control" placeholder="员工" readonly="readonly" name="staffName" id="staffName1">
+                                <input class="form-control hidden" placeholder="员工" name="staffId" id="staffId">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">状态</span>
+                                <select class="form-control" id="status1" name="status">
+                                    <option value="0">禁用</option>
+                                    <option value="1">启用</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">创建时间</span>
+                                <input class="form-control" placeholder="创建时间" name="createdTime"
+                                       id="createdTime1">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">结束时间</span>
+                                <input class="form-control" placeholder="结束时间"  name="newsEndTime"
+                                       id="newsEndTime1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">新闻/公告内容</span>
+                                <textarea class="form-control" rows="3" placeholder="新闻/公告内容" id="newsContent1" name="newsContent"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="newsManage.operate1();">
+                    确认
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- system modal start -->
+<div id="ycf-alert" class="modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <h5 class="modal-title"><i class="fa fa-exclamation-circle"></i> [Title]</h5>
+            </div>
+            <div class="modal-body">
+                <p>[Message]</p>
+            </div>
+            <div class="modal-footer">
+                <center>
+                    <button type="button" class="btn btn-primary ok" data-dismiss="modal">[BtnOk]</button>
+                    <button type="button" class="btn btn-default cancel" data-dismiss="modal">[BtnCancel]</button>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../common/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/table/js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="../common/bootstrap/table/js/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="../common/validate/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="../common/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="../common/confirm/bootstrap.confirm.js"></script>
+<script type="text/javascript" src="../common/laydate/laydate.js"></script>
+<script type="text/javascript" src="newsApi.js"></script>
+<script type="text/javascript">
+    var time_start = laydate.render({
+        elem: '#startTime',
+        type: 'date',
+        done: function (value, date, endDate) {
+            time_end.config.min = {
+                year: date.year,
+                month: date.month - 1,
+                date: date.date
+            }
+            if (compareDate(value, $("#endTime").val())) {
+                $("#endTime").val("");
+            }
+        }
+    });
+    var time_end = laydate.render({
+        elem: '#endTime',
+        type: 'date',
+        done: function (value, date, endDate) {
+            time_start.config.max = {
+                year: date.year,
+                month: date.month - 1,
+                date: date.date
+            }
+            if (compareDate($("#beginTime").val(), value)) {
+                $("#beginTime").val("");
+            }
+        }
+    });
+
+
+    /*
+     * 新增新闻时间控件加载
+    **/
+    var time_start = laydate.render({
+        elem: '#createdTime1',
+        type: 'date',
+        done: function (value, date, endDate) {
+            time_end.config.min = {
+                year: date.year,
+                month: date.month - 1,
+                date: date.date
+            }
+            if (compareDate(value, $("#newsEndTime1").val())) {
+                $("#newsEndTime1").val("");
+            }
+        }
+    });
+    var time_end = laydate.render({
+        elem: '#newsEndTime1',
+        type: 'date',
+        done: function (value, date, endDate) {
+            time_start.config.max = {
+                year: date.year,
+                month: date.month - 1,
+                date: date.date
+            }
+            if (compareDate($("#createdTime1").val(), value)) {
+                $("#createdTime1").val("");
+            }
+        }
+    });
+
+    function compareDate(d1, d2) {
+        return ((new Date(d1)) > (new Date(d2)));
+    }
+</script>
+</html>

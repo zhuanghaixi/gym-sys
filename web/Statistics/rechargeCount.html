@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 1000px;height:400px;padding: 50px"></div>
+</body>
+<script type="text/javascript" src="../common/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../common/echars/echarts.min.js"></script>
+<script type="text/javascript">
+	/*
+     * 加载近一年的月份
+    **/
+	var months;
+	var datas;
+	$(function () {
+		$.ajax({
+			url:"/GetMonthByNearYearServlet",
+			type:'post',
+			dataType : 'json',
+			success:function (result) {
+				months = result.data.ints;
+				datas = result.data.doubles;
+				// 使用刚指定的配置项和数据显示图表。
+				// 基于准备好的dom，初始化echarts实例
+				var myChart = echarts.init(document.getElementById('main'));
+				// 指定图表的配置项和数据
+				var option = {
+					title: {
+						text: '充值统计'
+					},
+					tooltip: {
+						trigger: 'axis'
+					},
+					xAxis: {
+						type: 'category',
+						data: months
+					},
+					yAxis: {
+						type: 'value'
+					},
+					series: [{
+						name:'充值统计',
+						stack: '充值总额',
+						data: datas,
+						type: 'line'
+					}]
+				};
+				myChart.setOption(option);
+			}
+		})
+	})
+
+</script>
+</html>

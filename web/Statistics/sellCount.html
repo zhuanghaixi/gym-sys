@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 1000px;height:400px;padding: 50px"></div>
+</body>
+<script type="text/javascript" src="../common/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../common/echars/echarts.min.js"></script>
+<script type="text/javascript">
+    /*
+     * 加载近一年的月份
+    **/
+    var months;
+    var datas;
+    $(function () {
+        $.ajax({
+            url:"/GetMonthByNearYearServlet",
+            type:'post',
+            dataType : 'json',
+            success:function (result) {
+                months = result.data.ints;
+                datas = result.data.doubles;
+                // 使用刚指定的配置项和数据显示图表。
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('main'));
+                // 指定图表的配置项和数据
+                var option = {
+                    color: ['#3398DB'],
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow' 吗
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis : [
+                        {
+                            type : 'category',
+                            data : ['运动服装', '健身补剂', '健身餐', '私教服务', '健身饮料', '医疗用品'],
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'销售数量',
+                            type:'bar',
+                            barWidth: '60%',
+                            data:[10, 52, 200, 334, 390, 330]
+                        }
+                    ]
+                };
+
+
+                myChart.setOption(option);
+            }
+        })
+    })
+
+</script>
+</html>

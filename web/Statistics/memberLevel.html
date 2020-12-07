@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div id="main" style="width: 1000px;height:600px;padding: 90px"></div>
+</body>
+<script type="text/javascript" src="../common/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../common/echars/echarts.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $.ajax({
+            url:"/GetMonthByNearYearServlet",
+            type:'post',
+            dataType : 'json',
+            success:function (result) {
+                months = result.data.ints;
+                datas = result.data.doubles;
+                // 使用刚指定的配置项和数据显示图表。
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('main'));
+                // 指定图表的配置项和数据
+                var option = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        x: 'left',
+                        data:['普通会员','青铜会员','白银会员','黄金会员','铂金会员']
+                    },
+                    series: [
+                        {
+                            name:'会员信息',
+                            type:'pie',
+                            radius: ['60%', '90%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data:[
+                                {value:3, name:'铂金会员'},
+                                {value:6, name:'黄金会员'},
+                                {value:9, name:'白银会员'},
+                                {value:10, name:'青铜会员'},
+                                {value:20, name:'普通会员'}
+                            ]
+                        }
+                    ]
+                };
+
+                myChart.setOption(option);
+            }
+        })
+    })
+
+</script>
+</html>
